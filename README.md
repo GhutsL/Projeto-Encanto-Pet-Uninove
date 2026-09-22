@@ -23,3 +23,51 @@ Projeto de extensão em desenvolvimento de software
     updateAt: Timestamp
 ```
 
+
+## Funcionários
+```
+    id: UUID
+    name: String
+    email: String
+    password: String
+    role: ["admin", "staff"]
+    isActive: Boolean
+    createAt: Timestamp
+    updateAt: Timestamp
+```
+
+## Pets
+```
+    id: UUID
+    name: String
+    breed: String
+    personality: String
+    medicalNeeds: String
+    createAt: Timestamp
+    updateAt: Timestamp
+```
+
+## Serviços
+```
+    id: UUID
+    name: String
+    value: Number
+    duration: String
+    isActive: Boolena
+    createAt: Timestamp
+    updateAt: Timestamp
+```
+
+## Agendamentos
+```
+    id: UUID
+    clientId: UUID
+    petId: UUID
+    services: Services[]
+    status: String
+    date: Timestamp
+    createAt: Timestamp
+    updateAt: Timestamp
+```
+
+
