@@ -1,42 +1,51 @@
 const express = require("express");
-require("dotenv").config();
+require("dotenv").config({ quiet: true });
 
-const connectToDatabase = require("./src/config/database");
-      
-async function startServer() {
-    const db = await connectToDatabase();
-    const pets = db.collection("pets");
+const app = express();
+app.use(express.json());
 
-    const app = express();  
+// const connectToDatabase = require("./src/config/database");
 
-    app.use(express.json());  //Para ler o corpo das requisições como JSON.
+// async function startServer() {
+//   const db = await connectToDatabase();
+//   const pets = db.collection("pets");
 
-    app.get("/", (req, res) => {
-    res.send("Servidor do EncantoPet funcionando!");
-    });
+//   app.post("/pets", async (req, res) => {
+//     const pet = req.body.nome;
 
-    app.post("/pets", async (req, res) => {
+//     if (!pet || pet.trim() === "") {
+//       return res.status(400).send("O nome do pet é obrigatório!");
+//     }
 
-    const pet = req.body.nome;
+//     await pets.insertOne({
+//       nome: pet,
+//     });
 
-    if (!pet || pet.trim() === "") {
-    return res.status(400).send("O nome do pet é obrigatório!");
-    }
+//     console.log("Pet recebido:");
+//     console.log(pet);
 
-    await pets.insertOne({
-    nome: pet
-    });
+//     res.send(`Pet ${pet} cadastrado com sucesso!`);
+//   });
 
-    console.log("Pet recebido:");
-    console.log(pet);
+//   app.listen(3000, () => {
+//     console.log("Servidor rodando na porta 3000");
+//   });
+// }
 
-    res.send(`Pet ${pet} cadastrado com sucesso!`);
+app.get("/", (req, res) => {
+  res.send("EncantoPet server is working!");
+});
 
-    });
+// Routes
+const userRoutes = require("./src/routes/user.routes.js")
+const serviceRoutes = require("./src/routes/service.routes.js")
+const scheduleRoutes = require("./src/routes/schedule.routes.js")
 
-    app.listen(3000, () => {
-    console.log("Servidor rodando na porta 3000");
-    });
-}
+app.use("/api/user", userRoutes)
+app.use("/api/service", serviceRoutes)
+app.use("/api/schedule", scheduleRoutes)
 
-startServer();
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
