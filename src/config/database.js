@@ -1,19 +1,21 @@
-const connectToDatabase = require("./src/config/database");
 
-const { MongoClient } = require("mongodb");         //Usado para conectar ao MongoDB.
+const { MongoClient } = require("mongodb");
 
-const client = new MongoClient(process.env.MONGODB_URI);        //Endereço usado do MongoDB Atlas.
+// Cria o cliente de conexão com o MongoDB Atlas.
+const client = new MongoClient(process.env.MONGODB_URI);
 
-const db = client.db("encanto_pet");
-const pets = db.collection("pets");
+async function connectToDatabase() {
+    try {
+        await client.connect();
 
-async function connectToDatabase() {        //Função para conectar ao MongoDB.
-    try {       //Tenta conectar ao MongoDB.
-        await client.connect();         //Conecta ao MongoDB.
         console.log("Conectado ao MongoDB!");
-    } catch (error) {   //Se houver algum erro ao conectar ao MongoDB, exibe o erro no console.
+
+        // Retorna o banco de dados do projeto.
+        return client.db("encanto_pet");
+    } catch (error) {
         console.error("Erro ao conectar ao MongoDB:", error);
+        throw error;
     }
 }
 
-module.exports = { client, db, pets, connectToDatabase };
+module.exports = connectToDatabase;
