@@ -31,10 +31,41 @@ const listUsers = async () => {
   }
 }
 
+const getUserById = async (id) => {
+  try {
+    const user = await User.findById(id)
+    return user
+  } catch (error) {
+    throw new Error(`Erro ao buscar o usuário - ${error}`)
+  }
+}
 
+const updateUser = async (id, name, email, password, role) => {
+  try {
+    const user = await User.findByIdAndUpdate(id, { name, email, password, role }, { new: true })
+    return user
+  } catch (error) {
+    throw new Error(`Erro ao atualizar o usuário - ${error}`)
+  }
+}
 
+const deleteUser = async (id) => {
+  try {
+    const user = await User.findByIdAndDelete(id)
+    return user
+  } catch (error) {
+    throw new Error(`Erro ao excluir o usuário - ${error}`)
+  }
+}   
 
 module.exports = {
   createUser,
-  listUsers
+  listUsers,
+  getUserById,
+  updateUser,
+  deleteUser
 }
+
+
+
+
