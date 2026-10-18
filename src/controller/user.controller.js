@@ -52,12 +52,21 @@ const createUser = async (req, res) => {
   }
 }
 
-const updateUser = async (req, res) => {
-  const fields = req.body 
+const deleteUser = async (req, res) => {
+  
+  try {
+    const { id } = req.params
+    
+    mockData.userTable = mockData.userTable.filter(user => user.id != id) // TODO: Remover na ligação do banco
+    return res.status(200).json({ erro: false, message: `Usuário id: ${id} deletado`})
+  } catch (error) {
+    return res.status(500).json({ error: true, message: `Falha interna do servidor - ${error.message}`})
+  }
 }
 
 module.exports = {
   listUsers,
   userById,
-  createUser
+  createUser,
+  deleteUser
 }
