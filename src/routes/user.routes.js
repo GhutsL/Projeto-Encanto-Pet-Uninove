@@ -6,6 +6,6 @@ router.get("/list-all", userController.listUsers)
 router.get("/:id", userController.userById)
 router.post("/", userController.createUser)
 router.patch("/:id", (req, res) => res.send("Update user route"))
-router.delete("/:id", (req, res) => res.send("Delete user route"))
+router.delete("/:id", userController.deleteUser)
 
 module.exports = router
