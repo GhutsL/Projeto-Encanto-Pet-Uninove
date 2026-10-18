@@ -5,34 +5,6 @@ const db = require("./src/config/database.js")
 const app = express();
 app.use(express.json());
 
-// const connectToDatabase = require("./src/config/database");
-
-// async function startServer() {
-//   const db = await connectToDatabase();
-//   const pets = db.collection("pets");
-
-//   app.post("/pets", async (req, res) => {
-//     const pet = req.body.nome;
-
-//     if (!pet || pet.trim() === "") {
-//       return res.status(400).send("O nome do pet é obrigatório!");
-//     }
-
-//     await pets.insertOne({
-//       nome: pet,
-//     });
-
-//     console.log("Pet recebido:");
-//     console.log(pet);
-
-//     res.send(`Pet ${pet} cadastrado com sucesso!`);
-//   });
-
-//   app.listen(3000, () => {
-//     console.log("Servidor rodando na porta 3000");
-//   });
-// }
-
 app.get("/", (req, res) => {
   res.send("EncantoPet server is working!");
 });
