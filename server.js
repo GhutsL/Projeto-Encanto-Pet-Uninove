@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const express = require("express");
 require("dotenv").config({ quiet: true });
 
@@ -50,29 +49,3 @@ const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
-=======
-require("dotenv").config();
-
-const express = require("express");
-const connectToDatabase = require("./src/config/database");
-
-async function startServer() {
-    const db = await connectToDatabase();
-    const pets = db.collection("pets");
-
-    const app = express();
-    app.use(express.json());
-
-    app.get("/", (req, res) => {
-        res.send("Servidor do Petshop funcionando!");
-    });
-
-    app.listen(3000, () => {
-        console.log("Servidor rodando na porta 3000");
-    });
-}
-
-startServer().catch((error) => {
-    console.error("Não foi possível iniciar o servidor.");
-});
->>>>>>> 1a81aca (Adicionando o CRUD)
