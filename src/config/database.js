@@ -1,17 +1,11 @@
 
-const { MongoClient } = require("mongodb");
-
-// Cria o cliente de conexão com o MongoDB Atlas.
-const client = new MongoClient(process.env.MONGODB_URI);
+const mongoose = require("mongoose");
+require("dotenv").config({ quiet: true });
 
 async function connectToDatabase() {
     try {
-        await client.connect();
-
-        console.log("Conectado ao MongoDB!");
-
-        // Retorna o banco de dados do projeto.
-        return client.db("encanto_pet");
+        mongoose.connect(process.env.mongo_uri);
+        return console.log("Conectado ao MongoDB!");
     } catch (error) {
         console.error("Erro ao conectar ao MongoDB:", error);
         throw error;

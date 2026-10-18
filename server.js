@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config({ quiet: true });
+const db = require("./src/config/database.js")
 
 const app = express();
 app.use(express.json());
@@ -47,5 +48,10 @@ app.use("/api/schedule", scheduleRoutes)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+  try {
+    db()
+    console.log(`Servidor rodando na porta ${PORT}`);
+  } catch (error) {
+    console.log(`Error - ${error}`);
+  }
 });
