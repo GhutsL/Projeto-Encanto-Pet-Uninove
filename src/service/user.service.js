@@ -1,4 +1,4 @@
-const User = require("../models/user.js")
+const User = require("../models/user.model.js")
 
 /**
  * Cria um usuario no mongoDB
