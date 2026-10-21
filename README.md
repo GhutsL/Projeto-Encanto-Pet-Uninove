@@ -39,6 +39,7 @@ Projeto de extensão em desenvolvimento de software
 ## Pets
 ```
     id: UUID
+    userId: String
     name: String
     breed: String
     personality: String

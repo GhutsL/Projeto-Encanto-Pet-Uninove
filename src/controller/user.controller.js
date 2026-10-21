@@ -1,9 +1,11 @@
 const mockData = require("../mockData.js") // TODO: Remover na ligação do banco
 const { randomUUID } = require('crypto');  // TODO: Remover na ligação do banco
+const userService = require("../service/user.service.js")
+
 
 const listUsers = async (req, res) => {
   try {
-    const allUsers = mockData.userTable // TODO: Alterar para retorno do mongoDB
+    const allUsers = await userService.listUsers() // TODO: Alterar para retorno do mongoDB
 
     return res.status(200).json({ erro: false, message: "Listagem de Usuarios", data: allUsers})
   } catch (error) {
@@ -29,22 +31,24 @@ const createUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body
     if(!name || !email || !password || !role){
-      return res.status(400).json({ error: true, message: `Os parametros 'name', 'email', 'password' e 'role' na requisição`})
+      return res.status(400).json({ error: true, message: `Os parametros 'name', 'email', 'password' e 'role' não foram encontrados na requisição`})
     }
 
+    const newUser = await userService.createUser(name, email, password, role)
+
     // TODO: Alterar para retorno do mongoDB >> 
-    const newUser = {
-      id: randomUUID(),
-      name: name,
-      email: email,
-      password: password,
-      role: role,
-      isActive: true,
-      createAt: 1791793870,
-      updateAt: 1791793870,
-    }
-    mockData.userTable.push(newUser)
-    // TODO: << Alterar para retorno do mongoDB 
+    // const newUser = {
+    //   id: randomUUID(),
+    //   name: name,
+    //   email: email,
+    //   password: password,
+    //   role: role,
+    //   isActive: true,
+    //   createAt: 1791793870,
+    //   updateAt: 1791793870,
+    // }
+    // mockData.userTable.push(newUser)
+    // // TODO: << Alterar para retorno do mongoDB 
 
     return res.status(200).json({ erro: false, message: "Dados do Usuario", data: newUser})
   } catch (error) {
@@ -52,12 +56,21 @@ const createUser = async (req, res) => {
   }
 }
 
-const updateUser = async (req, res) => {
-  const fields = req.body 
+const deleteUser = async (req, res) => {
+  
+  try {
+    const { id } = req.params
+    
+    mockData.userTable = mockData.userTable.filter(user => user.id != id) // TODO: Remover na ligação do banco
+    return res.status(200).json({ erro: false, message: `Usuário id: ${id} deletado`})
+  } catch (error) {
+    return res.status(500).json({ error: true, message: `Falha interna do servidor - ${error.message}`})
+  }
 }
 
 module.exports = {
   listUsers,
   userById,
-  createUser
+  createUser,
+  deleteUser
 }
