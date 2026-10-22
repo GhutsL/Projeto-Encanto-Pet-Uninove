@@ -40,7 +40,7 @@ const getUserById = async (id) => {
   }
 }
 
-const updateUser = async (id, name, email, password, role) => {
+const updateUser = async (id, data) => {
   try {
     const user = await User.findByIdAndUpdate(id, { name, email, password, role }, { new: true })
     return user
