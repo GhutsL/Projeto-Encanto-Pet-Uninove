@@ -1,4 +1,4 @@
-const Pets = require("../models/pets.js")
+const Pets = require("../models/pets.model.js")
 
 const createPet = async (name, breed, personality, medicalNeeds, ownerId, data) => {
   try {
