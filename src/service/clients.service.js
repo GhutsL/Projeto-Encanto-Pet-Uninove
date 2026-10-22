@@ -1,4 +1,4 @@
-const User = require("../models/cl.js")
+const User = require("../models/client.js")
 
 /**
  * Cria um cliente no mongoDB
@@ -22,7 +22,7 @@ const createClient = async (name, email, password, role) => {
   }
 }
 
-const listUsers = async () => {
+const listClients = async () => {
   try {
     const users = await User.find()
     return users
@@ -31,7 +31,7 @@ const listUsers = async () => {
   }
 }
 
-const getUserById = async (id) => {
+const getClientById = async (id) => {
   try {
     const user = await User.findById(id)
     return user
@@ -40,7 +40,7 @@ const getUserById = async (id) => {
   }
 }
 
-const updateUser = async (id, name, email, password, role) => {
+const updateClient = async (id, name, email, password, role) => {
   try {
     const user = await User.findByIdAndUpdate(id, { name, email, password, role }, { new: true })
     return user
@@ -49,7 +49,7 @@ const updateUser = async (id, name, email, password, role) => {
   }
 }
 
-const deleteUser = async (id) => {
+const deleteClient = async (id) => {
   try {
     const user = await User.findByIdAndDelete(id)
     return user
@@ -59,11 +59,11 @@ const deleteUser = async (id) => {
 }   
 
 module.exports = {
-  createUser,
-  listUsers,
-  getUserById,
-  updateUser,
-  deleteUser
+  createClient,
+  listClients,
+  getClientById,
+  updateClient,
+  deleteClient
 }
 
 
