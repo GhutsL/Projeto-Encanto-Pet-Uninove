@@ -22,8 +22,8 @@ const createClient = async (data) => {
 
 const listClients = async () => {
   try {
-    const Clients = await Client.find()
-    return Clients
+    const clients = await Client.find()
+    return clients
   } catch (error) {
     throw new Error(`Erro ao listar os clientes - ${error}`)
   }
@@ -31,17 +31,17 @@ const listClients = async () => {
 
 const getClientById = async (id) => {
   try {
-    const Client = await Client.findById(id)
-    return Client
+    const client = await Client.findById(id)
+    return client
   } catch (error) {
     throw new Error(`Erro ao buscar o cliente - ${error}`)
   }
 }
 
-const updateClient = async (id, name, email, password, role) => {
+const updateClient = async (id, data) => {
   try {
-    const Client = await Client.findByIdAndUpdate(id, { name, email, password, role }, { new: true })
-    return Client
+    const client = await Client.findByIdAndUpdate(id, data, { strict: "throw" })
+    return client
   } catch (error) {
     throw new Error(`Erro ao atualizar o cliente - ${error}`)
   }
@@ -49,8 +49,8 @@ const updateClient = async (id, name, email, password, role) => {
 
 const deleteClient = async (id) => {
   try {
-    const Client = await Client.findByIdAndDelete(id)
-    return Client
+    const client = await Client.findByIdAndDelete(id)
+    return client
   } catch (error) {
     throw new Error(`Erro ao excluir o cliente - ${error}`)
   }

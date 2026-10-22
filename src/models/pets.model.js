@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
 
 const petSchema = new mongoose.Schema({
-  name: { type: String, require: true },
-  breed: { type: String, require: true },
-  personality: { type: String, require: true },
-  medicalNeeds: { type: String, require: true },
+  name: { type: String, required: true },
+  breed: { type: String, required: true },
+  personality: { type: String, required: true },
+  medicalNeeds: { type: String, required: true },
   ownerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Client',
-    require: true
+    required: true
   }
-
 }, {
   timestamps: true
 });
