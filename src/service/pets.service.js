@@ -11,7 +11,7 @@ const createPet = async ( data) => {
 
 const listPets = async () => {
   try {
-    const pets = await Pets.find()  
+    const pets = await Pets.find().populate("ownerId")  
     return pets
   } catch (error) {
     throw new Error(`Erro ao listar animais de estimação - ${error}`)
@@ -29,7 +29,7 @@ const getPetById = async (id) => {
 
 const updatePet = async (id, data) => {
   try {
-    const pet = await Pets.findByIdAndUpdate(id,  data , { strict: "throw" })
+    const pet = await Pets.findByIdAndUpdate(id,  data , { strict: "throw", new: true })
     return pet
   } catch (error) {
     throw new Error(`Erro ao atualizar animal de estimação - ${error}`)
