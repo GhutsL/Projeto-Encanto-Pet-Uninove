@@ -1,9 +1,9 @@
 const Pets = require("../models/pets.js")
 
-const createPet = async (name, breed, personality, medicalNeeds, ownerId, date) => {
+const createPet = async (name, breed, personality, medicalNeeds, ownerId, data) => {
   try {
     const newPet = await Pets.create({
-      name, breed, personality, medicalNeeds, ownerId, date
+      name, breed, personality, medicalNeeds, ownerId, data
     })
     return newPet
   } catch (error) {
@@ -29,9 +29,9 @@ const getPetById = async (id) => {
   }
 }
 
-const updatePet = async (id, date) => {
+const updatePet = async (id, data) => {
   try {
-    const pet = await Pets.findByIdAndUpdate(id, { date }, { new: true })
+    const pet = await Pets.findByIdAndUpdate(id,  data , { new: true })
     return pet
   } catch (error) {
     throw new Error(`Erro ao atualizar animal de estimação - ${error}`)

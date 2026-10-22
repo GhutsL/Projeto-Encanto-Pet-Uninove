@@ -10,6 +10,9 @@ const petSchema = new mongoose.Schema({
     ref: 'Client',
     require: true
   }
+
+}, {
+  timestamps: true
 });
 
 module.exports = mongoose.model('Pet', petSchema);
