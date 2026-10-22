@@ -1,4 +1,4 @@
-const User = require("../models/client.js")
+const Client = require("../models/client.model.js")
 
 /**
  * Cria um cliente no mongoDB
@@ -9,52 +9,50 @@ const User = require("../models/client.js")
  * @returns
  */
 
-const createClient = async (name, email, password, role) => {
+const createClient = async (data) => {
   try {
-    const newUser = await User.create({
-      name, email, password, role
-    })
+    const newClient = await Client.create(data)
 
-    await newUser.save()
-    return newUser
+    await newClient.save()
+    return newClient
   } catch (error) {
-    throw new Error(`Erro ao criar um novo usuário - ${error}`)
+    throw new Error(`Erro ao criar um novo cliente - ${error}`)
   }
 }
 
 const listClients = async () => {
   try {
-    const users = await User.find()
-    return users
+    const Clients = await Client.find()
+    return Clients
   } catch (error) {
-    throw new Error(`Erro ao listar os usuários - ${error}`)
+    throw new Error(`Erro ao listar os clientes - ${error}`)
   }
 }
 
 const getClientById = async (id) => {
   try {
-    const user = await User.findById(id)
-    return user
+    const Client = await Client.findById(id)
+    return Client
   } catch (error) {
-    throw new Error(`Erro ao buscar o usuário - ${error}`)
+    throw new Error(`Erro ao buscar o cliente - ${error}`)
   }
 }
 
 const updateClient = async (id, name, email, password, role) => {
   try {
-    const user = await User.findByIdAndUpdate(id, { name, email, password, role }, { new: true })
-    return user
+    const Client = await Client.findByIdAndUpdate(id, { name, email, password, role }, { new: true })
+    return Client
   } catch (error) {
-    throw new Error(`Erro ao atualizar o usuário - ${error}`)
+    throw new Error(`Erro ao atualizar o cliente - ${error}`)
   }
 }
 
 const deleteClient = async (id) => {
   try {
-    const user = await User.findByIdAndDelete(id)
-    return user
+    const Client = await Client.findByIdAndDelete(id)
+    return Client
   } catch (error) {
-    throw new Error(`Erro ao excluir o usuário - ${error}`)
+    throw new Error(`Erro ao excluir o cliente - ${error}`)
   }
 }   
 
