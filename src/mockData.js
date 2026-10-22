@@ -23,7 +23,29 @@ let servicesTable = [
   },
 ];
 
+let clientTable = [
+  {
+    id: "001",
+    name: "Leonardo Sousa",
+    phone: "11999999999",
+    email: "leonardo.sousa@encontopet.com.br",
+    password: "123456",
+    pets: [],
+    street: "Rua x",
+    number: "123",
+    complement: "AP 02",
+    state: "SP",
+    city: "São Paulo",
+    uf: "SP",
+    cep: "01310100",
+    isActive: true,
+    createAt: 1791793870,
+    updateAt: 1791793870
+  },
+];
+
 module.exports = {
   userTable,
-  servicesTable
+  servicesTable,
+  clientTable
 };

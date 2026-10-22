@@ -1,4 +1,4 @@
-const User = require("../models/user.js")
+const User = require("../models/user.model.js")
 
 /**
  * Cria um usuario no mongoDB
@@ -42,7 +42,7 @@ const getUserById = async (id) => {
 
 const updateUser = async (id, data) => {
   try {
-    const user = await User.findByIdAndUpdate(id, { name, email, password, role }, { new: true })
+    const user = await User.findByIdAndUpdate(id, data , { new: true })
     return user
   } catch (error) {
     throw new Error(`Erro ao atualizar o usuário - ${error}`)
