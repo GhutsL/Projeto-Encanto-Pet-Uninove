@@ -1,7 +1,6 @@
-const moongeose = require('mongoose');
+const mongoose = require('mongoose');
 
-const serviceSchema = new moongeose.Schema({   
-
+const serviceSchema = new mongoose.Schema({   
     name: { type: String, required: true },
     value: { type: Number, required: true },
     duration: { type: Number, required: true },
