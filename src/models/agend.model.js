@@ -1,31 +1,42 @@
-const moogose = require('mongoose');
+const mongoose = require("mongoose");
 
-const agendSchema = new moogose.Schema({
-
+const agendSchema = new mongoose.Schema(
+  {
     clientId: {
-        type: moogose.Schema.Types.ObjectId,
-        ref: 'Client',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Client",
+      required: true,
     },
-    servicoId: {
-        type: moogose.Schema.Types.ObjectId,
-        ref: 'Servico',
-        required: true
+    servicos: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Servico",
+        },
+      ],
+      required: true,
+      validate: {
+        validator: (value) => value.length > 0,
+        message: "É necessário informar pelo menos um serviço.",
+      },
     },
-    PetId: {
-        type: moogose.Schema.Types.ObjectId,
-        ref: 'Pet',
-        required: true
+    petId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Pet",
+      required: true,
     },
     status: {
-        type: String,
-        enum: ['pending', 'confirmed', 'completed', 'canceled'], default: 'pending'
+      type: String,
+      enum: ["pending", "confirmed", "completed", "canceled"],
+      default: "pending",
     },
     date: { type: Date, required: true },
+  },
+  {
+    timestamps: true,
+  },
+);
 
-    timestamps: true
-    });
-
-const Agend = moogose.model("Agend", agendSchema);
+const Agend = mongoose.model("Agend", agendSchema);
 
 module.exports = Agend;
