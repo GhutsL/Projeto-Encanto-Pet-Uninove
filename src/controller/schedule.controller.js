@@ -28,7 +28,7 @@ const createSchedule = async (req, res) => {
     const newScheduleData = {
       clientId: client.id,
       date: new Date(`${data.data}T${data.horario}:00`),
-      petId: pet.id,git ad
+      petId: pet.id,
       servicos: services.map( service => service.id)
     }
 
