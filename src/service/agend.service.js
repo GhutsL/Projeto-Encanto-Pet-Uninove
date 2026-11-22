@@ -12,7 +12,10 @@ const createAgend = async (data) => {
 
 const listAgends = async () => {
     try {
-        return await Agend.find();
+        return await Agend.find() 
+        .populate("clientId")
+        .populate("servicos")
+        .populate("petId");
     } catch (error) {
         throw new Error(`Erro ao listar agendamentos - ${error}`);
     }
