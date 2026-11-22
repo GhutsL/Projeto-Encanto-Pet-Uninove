@@ -38,6 +38,21 @@ const createService = async (req, res) => {
   }
 }
 
+const updateService = async (req, res) => {
+  try {
+    const { id } = req.params
+    const body = req.body
+    if(!id || !body){
+      return res.status(400).json({ error: true, message: `Não encontrados parametros na requisição`})
+    }
+
+    const updateService = await servicoService.updateService(id, body)
+    return res.status(200).json({ erro: false, message: "Dados do Usuario", data: updateService})
+  } catch (error) {
+    return res.status(500).json({ error: true, message: `Falha interna do servidor - ${error.message}`})
+  }
+}
+
 const deleteService = async (req, res) => {
   try {
     const { id } = req.params
@@ -52,5 +67,6 @@ module.exports = {
   createService,
   listServices,
   deleteService,
-  serviceById
+  serviceById,
+  updateService
 }
