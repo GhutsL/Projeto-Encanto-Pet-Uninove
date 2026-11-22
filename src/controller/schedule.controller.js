@@ -2,30 +2,37 @@ const scheduleService = require("../service/agend.service.js");
 const Client = require("../models/client.model.js");
 const Pet = require("../models/pets.model.js");
 const Service = require("../models/servico.model.js");
-const Agend = require("../models/agend.model.js")
+const Agend = require("../models/agend.model.js");
 
 const createSchedule = async (req, res) => {
   try {
     const data = req.body;
     if (!data) {
-      return res
-        .status(400)
-        .json({
-          error: true,
-          message: `Não foram encontrados dados para cadastro na requisição`,
-        });
+      return res.status(400).json({
+        error: true,
+        message: `Não foram encontrados dados para cadastro na requisição`,
+      });
     }
 
-    const client = await Client.findOne({ gId: "123" }); // TODO: Criar cliente caso não ache
-    const pet = await Pet.findOne({
+    let client = await Client.findOne({ gId: "123" }); // TODO: Criar cliente caso não ache
+    let pet = await Pet.findOne({
       $and: [{ ownerId: client.id }, { name: data["pet-nome"] }],
     }); // TODO: Criar pet caso não ache
     let services = [];
+    if (!pet) {
+      pet = await Pet.create({
+        name: data["pet-nome"],
+        breed: data["pet-raca"],
+        ownerId: client.id,
+        personality: data["pet-temperamento"],
+        medicalNeeds: data["observacoes"],
+      });
+    }
 
     for (const serviceName of data.servicos) {
       const servico = await Service.findOne({ name: serviceName });
       services.push(servico);
-      console.log("Service find", servico);
+      // console.log("Service find", servico);
     }
 
     // console.log("Cliente", client)
@@ -43,13 +50,11 @@ const createSchedule = async (req, res) => {
 
     const newSchedule = await scheduleService.createAgend(newScheduleData);
 
-    return res
-      .status(201)
-      .json({
-        error: false,
-        message: `Agendamento criado com sucesso`,
-        schedule: newSchedule,
-      });
+    return res.status(201).json({
+      error: false,
+      message: `Agendamento criado com sucesso`,
+      schedule: newSchedule,
+    });
   } catch (error) {
     return res.status(500).json({ error: true, message: `${error.message}` });
   }
@@ -58,13 +63,11 @@ const createSchedule = async (req, res) => {
 const listSchedule = async (req, res) => {
   try {
     const allSchedule = await scheduleService.listAgends();
-    return res
-      .status(200)
-      .json({
-        error: false,
-        message: `Agendamento listados com sucesso`,
-        clients: allSchedule,
-      });
+    return res.status(200).json({
+      error: false,
+      message: `Agendamento listados com sucesso`,
+      clients: allSchedule,
+    });
   } catch (error) {
     return res.status(500).json({ error: true, message: `${error.message}` });
   }
@@ -86,7 +89,7 @@ const listScheduleByDay = async (req, res) => {
       },
     });
 
-    if(schedules.length == 0){
+    if (schedules.length == 0) {
       return res.status(200).json({
         error: false,
         message: `Agendamento do dia listados com sucesso`,
@@ -94,21 +97,21 @@ const listScheduleByDay = async (req, res) => {
       });
     }
 
-    schedules = schedules.map( schedule => {
-      console.log(schedule);
-      
-      const date = schedule.date.toJSON().split("T")
-
-      return { date: date[0], hour: date[1].split(".")[0] }
-    })
-
-    return res
-      .status(200)
-      .json({
-        error: false,
-        message: `Agendamento do dia listados com sucesso`,
-        schedules: schedules,
+    schedules = schedules.map((schedule) => {
+      const hour = new Date(schedule.date).toLocaleTimeString("pt-BR", {
+        timeZone: "America/Sao_Paulo",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
       });
+      return { hour };
+    });
+
+    return res.status(200).json({
+      error: false,
+      message: `Agendamento do dia listados com sucesso`,
+      schedules: schedules,
+    });
   } catch (error) {
     return res.status(500).json({ error: true, message: `${error.message}` });
   }
@@ -118,12 +121,10 @@ const scheduleById = async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) {
-      return res
-        .status(400)
-        .json({
-          error: true,
-          message: `Não endontrado ID de agendamento na requisição`,
-        });
+      return res.status(400).json({
+        error: true,
+        message: `Não endontrado ID de agendamento na requisição`,
+      });
     }
 
     const schedule = await scheduleService.getAgendById(id);
@@ -133,20 +134,16 @@ const scheduleById = async (req, res) => {
         .json({ error: true, message: `Agendamento não encontrado` });
     }
 
-    return res
-      .status(200)
-      .json({
-        error: false,
-        message: `Agendamento encontrado com sucesso`,
-        client: schedule,
-      });
+    return res.status(200).json({
+      error: false,
+      message: `Agendamento encontrado com sucesso`,
+      client: schedule,
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        error: true,
-        message: `Erro ao buscar Agendamento: ${error.message}`,
-      });
+    return res.status(500).json({
+      error: true,
+      message: `Erro ao buscar Agendamento: ${error.message}`,
+    });
   }
 };
 
@@ -154,12 +151,10 @@ const deleteSchedule = async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) {
-      return res
-        .status(400)
-        .json({
-          error: true,
-          message: `Não endontrado ID de agendamento na requisição`,
-        });
+      return res.status(400).json({
+        error: true,
+        message: `Não endontrado ID de agendamento na requisição`,
+      });
     }
 
     const client = await scheduleService.deleteAgend(id);
@@ -173,12 +168,10 @@ const deleteSchedule = async (req, res) => {
       .status(200)
       .json({ error: false, message: `Agendamento deletado com sucesso` });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        error: true,
-        message: `Erro ao deletar agendamento: ${error.message}`,
-      });
+    return res.status(500).json({
+      error: true,
+      message: `Erro ao deletar agendamento: ${error.message}`,
+    });
   }
 };
 
@@ -194,20 +187,16 @@ const updateClient = async (req, res) => {
         .json({ error: true, message: `Cliente não encontrado` });
     }
 
-    return res
-      .status(200)
-      .json({
-        error: false,
-        message: `Cliente atualizado com sucesso`,
-        client,
-      });
+    return res.status(200).json({
+      error: false,
+      message: `Cliente atualizado com sucesso`,
+      client,
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        error: true,
-        message: `Erro ao atualizar cliente: ${error.message}`,
-      });
+    return res.status(500).json({
+      error: true,
+      message: `Erro ao atualizar cliente: ${error.message}`,
+    });
   }
 };
 
