@@ -46,7 +46,7 @@ const createUser = async (req, res) => {
       return res.status(400).json({ error: true, message: `Os parametros 'name', 'email', 'password' e 'role' não foram encontrados na requisição`})
     }
 
-    const newUser = await userService.updateUser(name, email, password, role)
+    const newUser = await userService.createUser(name, email, password, role)
 
     return res.status(200).json({ erro: false, message: "Dados do Usuario", data: newUser})
   } catch (error) {
