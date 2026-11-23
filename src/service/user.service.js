@@ -1,5 +1,25 @@
 const User = require("../models/user.model.js")
 
+const login = async (email, password) => {
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      throw new Error("E-mail ou senha inválidos");
+    }
+
+    const validPassword = password === user.password
+
+    if (!validPassword) {
+      throw new Error("E-mail ou senha inválidos");
+    }
+
+    return user;
+  } catch (error) {
+    throw new Error(`Erro ao realizar login - ${error.message}`);
+  }
+};
+
 /**
  * Cria um usuario no mongoDB
  * @param {String} name 
@@ -63,7 +83,8 @@ module.exports = {
   listUsers,
   getUserById,
   updateUser,
-  deleteUser
+  deleteUser,
+  login
 }
 
 

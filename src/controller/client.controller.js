@@ -1,4 +1,3 @@
-const mockdata = require('../mockData')
 const clientService = require('../service/clients.service')
 
 const createClient = async (req, res) => {

@@ -1,6 +1,19 @@
-const mockData = require("../mockData.js") // TODO: Remover na ligação do banco
 const userService = require("../service/user.service.js")
 
+
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body
+    if(!email || !password){
+      return res.status(400).json({ error: true, message: `Não endontrado email e senha de usuario na requisição`})
+    }
+
+    const user = await userService.login(email, password)
+    return res.status(200).json({ erro: false, message: "Usuario", user})
+  } catch (error) {
+    return res.status(500).json({ error: true, message: `Falha interna do servidor - ${error.message}`})
+  }
+}
 
 const listUsers = async (req, res) => {
   try {
@@ -63,5 +76,6 @@ module.exports = {
   listUsers,
   userById,
   createUser,
-  deleteUser
+  deleteUser,
+  login
 }

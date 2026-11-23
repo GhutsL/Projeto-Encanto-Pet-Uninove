@@ -1,8 +1,8 @@
-const AgendService = require('../service/agenda.service');
+const Agend = require("../models/agend.model.js")
 
 const createAgend = async (data) => {
     try {
-        const newAgend = await AgendService.create(data);
+        const newAgend = await Agend.create(data);
         await newAgend.save();
         return newAgend;
     } catch (error) {
@@ -12,7 +12,10 @@ const createAgend = async (data) => {
 
 const listAgends = async () => {
     try {
-        return await AgendService.find();
+        return await Agend.find() 
+        .populate("clientId")
+        .populate("servicos")
+        .populate("petId");
     } catch (error) {
         throw new Error(`Erro ao listar agendamentos - ${error}`);
     }
@@ -20,7 +23,7 @@ const listAgends = async () => {
 
 const getAgendById = async (id) => {
     try {
-        return await AgendService.findById(id);
+        return await Agend.findById(id);
     } catch (error) {
         throw new Error(`Erro ao buscar agendamento por ID - ${error}`);
     }
@@ -28,7 +31,7 @@ const getAgendById = async (id) => {
 
 const updateAgend = async (id, data) => {
     try {
-        return await AgendService.findByIdAndUpdate(id, data, { new: true });
+        return await Agend.findByIdAndUpdate(id, data, { new: true });
     } catch (error) {
         throw new Error(`Erro ao atualizar agendamento - ${error}`);
     }
@@ -36,7 +39,7 @@ const updateAgend = async (id, data) => {
 
 const deleteAgend = async (id) => {
     try {
-        return await AgendService.findByIdAndDelete(id);
+        return await Agend.findByIdAndDelete(id);
     } catch (error) {
         throw new Error(`Erro ao excluir agendamento - ${error}`);
     }

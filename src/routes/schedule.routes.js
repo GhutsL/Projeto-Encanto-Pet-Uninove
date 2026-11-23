@@ -1,10 +1,12 @@
 const express = require("express")
 const router = express.Router()
+const scheduleController = require("../controller/schedule.controller.js")
 
-router.get("/list-all", (req, res) => res.send("List all schedules route"))
-router.get("/:id", (req, res) => res.send("Get schedule by id"))
-router.post("/", (req, res) => res.send("Create schedule route"))
+router.get("/list-all", scheduleController.listSchedule)
+router.get("/list-day/:day", scheduleController.listScheduleByDay)
+router.get("/:id", scheduleController.scheduleById)
+router.post("/", scheduleController.createSchedule)
 router.patch("/:id", (req, res) => res.send("Update schedule route"))
-router.delete("/:id", (req, res) => res.send("Delete schedule route"))
+router.delete("/:id", scheduleController.deleteSchedule)
 
 module.exports = router
