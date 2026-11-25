@@ -20,6 +20,7 @@ const createSchedule = async (req, res) => {
         name: data.nome,
         phone: data.telefone,
         gId: data.gId,
+        email: data.gId,
         street: data.endereco,
       })
     }
