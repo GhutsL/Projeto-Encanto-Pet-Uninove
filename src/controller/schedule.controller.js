@@ -15,6 +15,10 @@ const createSchedule = async (req, res) => {
     }
 
     let client = await Client.findOne({ gId: "123" }); // TODO: Criar cliente caso não ache
+    if(!client){
+
+    }
+
     let pet = await Pet.findOne({
       $and: [{ ownerId: client.id }, { name: data["pet-nome"] }],
     }); // TODO: Criar pet caso não ache
@@ -41,7 +45,7 @@ const createSchedule = async (req, res) => {
 
     const newScheduleData = {
       clientId: client.id,
-      date: new Date(`${data.data}T${data.horario}:00`),
+      date: new Date(`${data.data}T${data.horario}:00-03:00`),
       petId: pet.id,
       servicos: services.map((service) => service.id),
     };
