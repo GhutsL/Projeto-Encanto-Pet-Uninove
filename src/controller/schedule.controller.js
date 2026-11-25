@@ -14,9 +14,14 @@ const createSchedule = async (req, res) => {
       });
     }
 
-    let client = await Client.findOne({ gId: "123" }); // TODO: Criar cliente caso não ache
+    let client = await Client.findOne({ gId: data.gId }); // TODO: Criar cliente caso não ache
     if(!client){
-
+      client = await Client.create({
+        name: data.nome,
+        phone: data.telefone,
+        gId: data.gId,
+        street: data.endereco,
+      })
     }
 
     let pet = await Pet.findOne({
